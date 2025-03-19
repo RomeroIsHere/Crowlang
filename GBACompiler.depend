@@ -36,12 +36,12 @@
 	<stdexcept>
 	"Token.h"
 
-1742397243 source:c:\users\guillermo\documents\program\gbacompiler\src\syntaxer.cpp
+1742397984 source:c:\users\guillermo\documents\program\gbacompiler\src\syntaxer.cpp
 	"Syntaxer.h"
 	<functional>
 	<iostream>
 
-1731593469 c:\users\guillermo\documents\program\gbacompiler\include\syntaxer.h
+1742404156 c:\users\guillermo\documents\program\gbacompiler\include\syntaxer.h
 	<vector>
 	<functional>
 	<fstream>
@@ -99,7 +99,7 @@
 	<vector>
 	<map>
 
-1742397328 source:c:\users\guillermo\documents\program\gbacompiler\src\translator.cpp
+1742400245 source:c:\users\guillermo\documents\program\gbacompiler\src\translator.cpp
 	<iostream>
 	<bits/stdc++.h>
 	"Translator.h"

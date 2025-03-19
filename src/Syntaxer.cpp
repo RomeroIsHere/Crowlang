@@ -455,7 +455,8 @@ CrowError Syntaxer::assigner(){
         [this](){
             std::function<CrowError()> inner[]={
                 std::bind(&Syntaxer::calculated,this),
-                std::bind(&Syntaxer::arrayc,this)
+                std::bind(&Syntaxer::arrayc,this),
+                std::bind(&Syntaxer::construct,this)
             };
             return OneOf(inner,2);
         }
@@ -816,7 +817,29 @@ CrowError Syntaxer::VALUE(){
     };
     return OneOf(functions,5);
     }
-CrowError Syntaxer::arrayc(){
+CrowError Syntaxer::construct(){
+    std::function<CrowError()> functions[]={
+    [this](){
+    return this->matchSubtype(this->tokenlist[this->workingindex++],OPENCURL);
+    },
+    std::bind(&Syntaxer::calculated,this),
+    [this](){
+        std::function<CrowError()> inner[]={
+            [this](){
+                return this->matchSubtype(this->tokenlist[this->workingindex++],COMMA);
+            },
+            std::bind(&Syntaxer::calculated,this),
+        };
+        return NoneOrMore(inner, 2);
+    },
+    [this](){
+    return this->matchSubtype(this->tokenlist[this->workingindex++],CLOSECURL);
+    }
+    };
+    return Once(functions, 4);
+}
+
+    CrowError Syntaxer::arrayc(){
     std::function<CrowError()> functions[]={
     [this](){
     return this->matchSubtype(this->tokenlist[this->workingindex++],OPENBRACKET);
@@ -835,8 +858,9 @@ CrowError Syntaxer::arrayc(){
     return this->matchSubtype(this->tokenlist[this->workingindex++],CLOSEBRACKET);
     }
     };
-    return Once(functions, 2);
+    return Once(functions, 4);
     }
+
 CrowError Syntaxer::TYPE(){
 
     std::function<CrowError()> functions[]={

@@ -26,6 +26,29 @@ std::string tillLine(std::vector<Token>* tokenIn, int* in){
     *in=ii;
     return line+"\n\t";
 }
+
+std::string ifcode(std::vector<Token>* tokenIn, int* in){
+    std::vector<Token> tokenList=*tokenIn;
+    int ii=*in;
+
+    *in=ii;
+    return type +" "+referencer+name+arrayer;
+}
+
+std::string loopcode(std::vector<Token>* tokenIn, int* in){
+    std::string preloop;
+    std::string condition;
+    std::vector<std::string> Cases;
+    std::string codeblocked;
+
+    "u8 Index_Crow_Controlled=0;";
+    std::vector<Token> tokenList=*tokenIn;
+    int ii=*in;
+    *in=ii;
+    return type +" "+referencer+name+arrayer;
+}
+
+
 std::string typedVariable(std::vector<Token>* tokenIn, int* in){
 
     std::string name;
@@ -91,12 +114,17 @@ std::string codeblock(std::vector<Token>* tokenIn, int* in){
     returnal+=tokenList[ii].tokenString+"\n";
         do{
             ii++;
-            if(tokenList[ii].subtype==OPENCURL){
+            if(tokenList[ii].subtype==OPENCURL){//inner codeBlock
                 returnal+=codeblock(tokenIn,&(ii));
                 returnal+=tokenList[++ii].tokenString;
-            }else if (tokenList[ii].type==TYPEMOD||tokenList[ii].type==TYPE){
+            }else if (tokenList[ii].type==TYPEMOD||tokenList[ii].type==TYPE){//Type Declaration
                 returnal+=typedVariable(tokenIn,&ii);
                 returnal+=tokenList[ii].tokenString;
+            }else if(tokenList[ii].subtype==IFC){//Control Statement
+                returnal+=ifcode(tokenIn,&ii);
+
+            }else if(tokenList[ii].subtype==LOOP){//Loop Statement
+                returnal+=loopcode(tokenIn,&ii);
             }else{
                 returnal+=tokenList[ii].tokenString;
             }
@@ -128,7 +156,12 @@ std::string function(std::vector<Token> *tokenIn, int *in){
     name+=tokenList[ii+1].tokenString;
     int n=ii+2;
     do{
-        parameters+=tokenList[n].tokenString;
+        if(tokenList[n].type==TYPEMOD||tokenList[n].type==TYPE){
+            parameters+=typedVariable(&tokenList,&n);
+            n--;
+        }else{
+            parameters+=tokenList[n].tokenString;
+        }
         parameters+=" ";
     }while(tokenList[n++].subtype!=CLOSEPARENTHESIS);
 

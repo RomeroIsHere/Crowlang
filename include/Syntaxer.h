@@ -48,9 +48,11 @@ struct Syntaxer{
         CrowError UNARYOPERATOR();
         CrowError VALUE();
         CrowError arrayc();
+        CrowError construct();
         CrowError TYPE();
         CrowError TYPEMOD();
         CrowError COMMENT();
+
 
         unsigned int workingindex;
         unsigned int max;
