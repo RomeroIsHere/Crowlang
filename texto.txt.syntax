@@ -1,0 +1,16 @@
+macro ident ( x ) ( ) ; 
+add "File.head" ; 
+function crowFunct ( ) : void : main { u16 colorBlanco = 0x7fff 0x7fff ; 
+u16 colorAzul = 0x001F 0x001F ; 
+u32 var = h03e0 h03e0 h03e0 h03e0 ; 
+pointer u16 screen = 0x06000000 0x06000000 ; 
+setInt setInt setInt setInt ( 0x04000000 0x04000000 , 0x0403 0x0403 ) setInt ( 0x04000000 0x04000000 , 0x0403 0x0403 ) ; 
+screen screen screen [ 120 120 + 80 80 * 240 240 ] = 0x001F 0x001F ; 
+screen screen screen [ 136 136 + 80 80 * 240 240 ] = 0x03E0 0x03E0 ; 
+screen screen screen [ 120 120 + 96 96 * 240 240 ] = 0x7C00 0x7C00 ; 
+scanlineFill scanlineFill scanlineFill scanlineFill ( colorBlanco colorBlanco colorBlanco colorBlanco , 32 32 ) scanlineFill ( colorBlanco colorBlanco colorBlanco colorBlanco , 32 32 ) ; 
+} ; 
+function scanlineFill ( u16 color , u32 line ) : void : frame { loop ( i i i = 0 0 : i i i i i i i < SCREEN_WIDTH SCREEN_WIDTH SCREEN_WIDTH SCREEN_WIDTH i i i i < SCREEN_WIDTH SCREEN_WIDTH SCREEN_WIDTH SCREEN_WIDTH ) { m3_plot m3_plot m3_plot m3_plot ( i i i i , y y y y % SCREEN_HEIGHT SCREEN_HEIGHT SCREEN_HEIGHT SCREEN_HEIGHT - 1 1 , color color color color ) m3_plot ( i i i i , y y y y % SCREEN_HEIGHT SCREEN_HEIGHT SCREEN_HEIGHT SCREEN_HEIGHT - 1 1 , color color color color ) ; 
+i i i = i i ++ ; 
+} waitScreenBlank waitScreenBlank waitScreenBlank waitScreenBlank ( ) waitScreenBlank ( ) ; 
+} ; 

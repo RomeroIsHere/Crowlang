@@ -1,0 +1,33 @@
+/*Hello i am a Comment*/
+
+macro ident(x) ();
+add "File.head";
+
+function crowFunct():void:main{
+    u16 colorBlanco=0x7fff; u16 colorAzul=0x001F;
+    u32 var=h03e0;
+    pointer u16 screen=0x06000000;
+    setInt(0x04000000,0x0403);//Activa los Bits de Control para Modo 4 y la Capa de Fondos visible
+    /*
+    Esto es Equivalente a una Asignacion de Memoria Interna
+    */
+	screen[120 +80*240]= 0x001F;
+	screen[136 +80*240]= 0x03E0;
+	screen[120 +96*240]= 0x7C00;
+    scanlineFill(colorBlanco,32);
+    /*
+    Muestra 3 Puntos de colores en Pantalla y la linea 32 en colorBlanco
+    */
+    /*Monoline comment is Here*/
+    //Crowlang no Puede Regresar al sistema Operativo, porque GBA no tiene Sistema Operativo, Por lo cual Main nunca utiliza Return
+    //Al final de todos Los Metodos Hay un loop Infinito Implicito
+};
+
+function scanlineFill(u16 color,u32 line):void:frame{
+    //waitScreenBlank();
+    loop(i=0:i<SCREEN_WIDTH){
+        m3_plot(i,y%SCREEN_HEIGHT-1,color);
+		i=i++;
+    }
+	waitScreenBlank();
+};

@@ -1,0 +1,115 @@
+# depslib dependency file v1.0
+1742393166 source:c:\users\guillermo\documents\program\gbacompiler\main.cpp
+	<iostream>
+	<fstream>
+	<string>
+	<vector>
+	<set>
+	<regex>
+	"HelperFunctions.h"
+	"Token.h"
+	"Syntaxer.h"
+	"ErrorData.h"
+	"TypeChecker.h"
+	"Translator.h"
+	<windows.h>
+
+1742395073 source:c:\users\guillermo\documents\program\gbacompiler\src\token.cpp
+	"Token.h"
+	<string>
+	<iostream>
+	<regex>
+
+1741790135 c:\users\guillermo\documents\program\gbacompiler\include\token.h
+	<string>
+
+1730388947 source:c:\users\guillermo\documents\program\gbacompiler\src\syntaxtree.cpp
+	"SyntaxTree.h"
+
+1730394156 c:\users\guillermo\documents\program\gbacompiler\include\syntaxtree.h
+
+1738698085 source:c:\users\guillermo\documents\program\gbacompiler\src\crowerror.cpp
+	"CrowError.h"
+	"Token.h"
+
+1738159094 c:\users\guillermo\documents\program\gbacompiler\include\crowerror.h
+	<stdexcept>
+	"Token.h"
+
+1742397243 source:c:\users\guillermo\documents\program\gbacompiler\src\syntaxer.cpp
+	"Syntaxer.h"
+	<functional>
+	<iostream>
+
+1731593469 c:\users\guillermo\documents\program\gbacompiler\include\syntaxer.h
+	<vector>
+	<functional>
+	<fstream>
+	"Token.h"
+	"CrowError.h"
+
+1730695135 source:c:\users\guillermo\documents\program\gbacompiler\src\abstractsyntaxtree.cpp
+	"AbstractSyntaxTree.h"
+
+1730695135 c:\users\guillermo\documents\program\gbacompiler\include\abstractsyntaxtree.h
+
+1731521924 c:\users\guillermo\documents\program\gbacompiler\include\errordata.h
+	<string>
+	"CrowError.h"
+
+1738354924 source:c:\users\guillermo\documents\program\gbacompiler\src\errordata.cpp
+	"ErrorData.h"
+	<string>
+	"CrowError.h"
+	"Token.h"
+
+1738959602 c:\users\guillermo\documents\program\gbacompiler\include\typechecker.h
+	<vector>
+	<stdint.h>
+	"Token.h"
+	"CrowError.h"
+	"SymbolTable.h"
+
+1741790135 source:c:\users\guillermo\documents\program\gbacompiler\src\typechecker.cpp
+	<iostream>
+	<algorithm>
+	<string>
+	<stdint.h>
+	<limits>
+	"TypeChecker.h"
+	"Token.h"
+	"CrowError.h"
+	"HelperFunctions.h"
+	"SymbolTable.h"
+
+1739973401 c:\users\guillermo\documents\program\gbacompiler\include\helperfunctions.h
+	<string>
+
+1739973404 source:c:\users\guillermo\documents\program\gbacompiler\src\helperfunctions.cpp
+	"HelperFunctions.h"
+
+1741184003 source:c:\users\guillermo\documents\program\gbacompiler\src\symboltable.cpp
+	"SymbolTable.h"
+	<iostream>
+	<algorithm>
+
+1739252148 c:\users\guillermo\documents\program\gbacompiler\include\symboltable.h
+	"Token.h"
+	<string>
+	<vector>
+	<map>
+
+1742397328 source:c:\users\guillermo\documents\program\gbacompiler\src\translator.cpp
+	<iostream>
+	<bits/stdc++.h>
+	"Translator.h"
+	<fstream>
+	<vector>
+	"Token.h"
+
+1741983575 c:\users\guillermo\documents\program\gbacompiler\include\translator.h
+	"Token.h"
+	<fstream>
+	<string>
+	<vector>
+
