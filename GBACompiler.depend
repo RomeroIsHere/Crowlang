@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1742393166 source:c:\users\guillermo\documents\program\gbacompiler\main.cpp
+1743001564 source:c:\users\guillermo\documents\program\gbacompiler\main.cpp
 	<iostream>
 	<fstream>
 	<string>
@@ -14,13 +14,13 @@
 	"Translator.h"
 	<windows.h>
 
-1742395073 source:c:\users\guillermo\documents\program\gbacompiler\src\token.cpp
+1743003508 source:c:\users\guillermo\documents\program\gbacompiler\src\token.cpp
 	"Token.h"
 	<string>
 	<iostream>
 	<regex>
 
-1741790135 c:\users\guillermo\documents\program\gbacompiler\include\token.h
+1743004897 c:\users\guillermo\documents\program\gbacompiler\include\token.h
 	<string>
 
 1730388947 source:c:\users\guillermo\documents\program\gbacompiler\src\syntaxtree.cpp
@@ -36,7 +36,7 @@
 	<stdexcept>
 	"Token.h"
 
-1742397984 source:c:\users\guillermo\documents\program\gbacompiler\src\syntaxer.cpp
+1743003136 source:c:\users\guillermo\documents\program\gbacompiler\src\syntaxer.cpp
 	"Syntaxer.h"
 	<functional>
 	<iostream>
@@ -63,14 +63,14 @@
 	"CrowError.h"
 	"Token.h"
 
-1738959602 c:\users\guillermo\documents\program\gbacompiler\include\typechecker.h
+1743002235 c:\users\guillermo\documents\program\gbacompiler\include\typechecker.h
 	<vector>
 	<stdint.h>
 	"Token.h"
 	"CrowError.h"
 	"SymbolTable.h"
 
-1741790135 source:c:\users\guillermo\documents\program\gbacompiler\src\typechecker.cpp
+1743002288 source:c:\users\guillermo\documents\program\gbacompiler\src\typechecker.cpp
 	<iostream>
 	<algorithm>
 	<string>
@@ -82,11 +82,12 @@
 	"HelperFunctions.h"
 	"SymbolTable.h"
 
-1739973401 c:\users\guillermo\documents\program\gbacompiler\include\helperfunctions.h
+1742996504 c:\users\guillermo\documents\program\gbacompiler\include\helperfunctions.h
 	<string>
 
-1739973404 source:c:\users\guillermo\documents\program\gbacompiler\src\helperfunctions.cpp
+1742996616 source:c:\users\guillermo\documents\program\gbacompiler\src\helperfunctions.cpp
 	"HelperFunctions.h"
+	<iostream>
 
 1741184003 source:c:\users\guillermo\documents\program\gbacompiler\src\symboltable.cpp
 	"SymbolTable.h"
@@ -99,15 +100,16 @@
 	<vector>
 	<map>
 
-1742400245 source:c:\users\guillermo\documents\program\gbacompiler\src\translator.cpp
+1743002414 source:c:\users\guillermo\documents\program\gbacompiler\src\translator.cpp
 	<iostream>
 	<bits/stdc++.h>
 	"Translator.h"
 	<fstream>
 	<vector>
+	"HelperFunctions.h"
 	"Token.h"
 
-1741983575 c:\users\guillermo\documents\program\gbacompiler\include\translator.h
+1743004402 c:\users\guillermo\documents\program\gbacompiler\include\translator.h
 	"Token.h"
 	<fstream>
 	<string>

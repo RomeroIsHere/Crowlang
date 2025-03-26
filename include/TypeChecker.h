@@ -15,7 +15,7 @@ class TypeChecker
         virtual ~TypeChecker();
         void expressionRules(std::vector<Token> tokenList);
         CrowError findAllIdentifiers(std::vector<Token> allToken);
-        CrowError literalValueRanges(std::vector<Token> LiteralValues);
+        CrowError literalValueRanges(std::vector<Token> *LiteralValues);
 
         CrowError structConstruct();
         CrowError accesArrayOrPointer();

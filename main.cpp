@@ -143,7 +143,7 @@ int main(int argc, char ** argv)
         std::cout<<"Analisis Sintactico Exitoso"<<std::endl;
     }
     TypeChecker typo;
-    stopped=typo.literalValueRanges(tokenVect);
+    stopped=typo.literalValueRanges(&tokenVect);
     if(stopped.hasError()){
         std::cout<<"Codigo de Salida:"<<stopped.code<<std::endl;
         std::cout<<"Analisis Semantico Fallido"<<std::endl;

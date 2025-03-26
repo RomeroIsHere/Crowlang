@@ -41,17 +41,24 @@ TypeChecker::~TypeChecker()
 }
 
 void TypeChecker::expressionRules(std::vector<Token> tokenList){
-    literalValueRanges(tokenList);
+    literalValueRanges(&tokenList);
     findAllIdentifiers(tokenList);
 }
 
 
 
-CrowError TypeChecker::literalValueRanges(std::vector<Token> allToken){
-    std::vector<Token> valueList;
-    std::copy_if(begin(allToken), end(allToken), std::back_inserter(valueList), [](Token& elem) { return elem.type==VALUE; });
+CrowError TypeChecker::literalValueRanges(std::vector<Token> *allToken){
+    std::vector<int> valueList;//index
+    std::vector<Token>& tokenList=*allToken;
+    int size=tokenList.size();
+    for(int ii=0;ii<size;ii++){
+        if(tokenList[ii].type==VALUE){
+         valueList.push_back(ii);
+        }
+    }
     int64_t temp;
-    for(Token t:valueList){
+    for(int index:valueList){
+        Token t=tokenList[index];
             try{
                 temp=evaluate(t);
             }catch(std::out_of_range const&){
@@ -69,6 +76,8 @@ CrowError TypeChecker::literalValueRanges(std::vector<Token> allToken){
                 //std::cout<<Token::string(t.subtype)<<":"<<t.tokenString<<" Value "<<temp<<'\n';
                 if (temp>INT_MAX||temp<INT_MIN)
                     return CrowError(3,t);
+                else
+                    tokenList[index].tokenString=std::to_string(temp);
                 break;
             case CHAIN:
             case CHARACTER:

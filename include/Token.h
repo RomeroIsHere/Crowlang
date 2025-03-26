@@ -19,12 +19,12 @@ enum subtokentype{
     STRUCTURE,
     MACRO,
     ADD,
+    MAIN,
     SUBROUTINE,
-    LOOP,
     FRAME,
+    LOOP,
     IFC,
-    ELSEC,
-    MAIN,//RESERVED KEYWORDS
+    ELSEC,//RESERVED KEYWORDS
     DOT,
     COMMA,
     OPENBRACKET,

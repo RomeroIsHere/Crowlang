@@ -7,7 +7,7 @@ std::map<subtokentype,std::regex> regexSubType;
 
 void Token::initialize(){
     regexSuperType[COMMENT]=std::regex("(//.*)$|(/\\*.*\\*/)");
-    regexSuperType[RESERVED]=std::regex("function|structure|macro|add|subroutine|loop|frame|main|if|else|return");
+    regexSuperType[RESERVED]=std::regex("function|structure|macro|add|subroutine|frame|main|loop|if|else|return");
     regexSuperType[TYPEMOD]=std::regex("volatile|array|pointer|dstruct");
     regexSuperType[VALUE]=std::regex("0(x|h)[a-fA-F0-9_]+|0b[10_]+|0f[a-fA-F0-9]{2}\\.[a-fA-F0-9]{2}|\".*\"|'.'|[0-9]+");
     regexSuperType[TYPE]=std::regex("(u|s|bit)(8|16|32)|void|bool");
@@ -22,11 +22,11 @@ void Token::initialize(){
     regexSubType[MACRO]=std::regex("macro");
     regexSubType[ADD]=std::regex("add");
     regexSubType[SUBROUTINE]=std::regex("subroutine");
-    regexSubType[LOOP]=std::regex("loop");
     regexSubType[FRAME]=std::regex("frame");
     regexSubType[MAIN]=std::regex("main");
+    regexSubType[LOOP]=std::regex("loop");
     regexSubType[IFC]=std::regex("if");
-    regexSubType[ELSEC]=std::regex("elsec");
+    regexSubType[ELSEC]=std::regex("else");
     regexSubType[DOT]=std::regex("\\.");
     regexSubType[COMMA]=std::regex(",");
     regexSubType[OPENBRACKET]=std::regex("\\[");

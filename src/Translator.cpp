@@ -3,7 +3,7 @@
 #include "Translator.h"
 #include <fstream>
 #include <vector>
-
+#include "HelperFunctions.h"
 #include "Token.h"
 Translator::Translator(std::string OutputName)
 {
@@ -14,9 +14,9 @@ Translator::~Translator()
 {
     //dtor
 }
-std::string tillLine(std::vector<Token>* tokenIn, int* in){
+std::string Translator::tillLine(std::vector<Token>* tokenIn, int* in){
     std::string line;
-    std::vector<Token> tokenList=*tokenIn;
+    std::vector<Token>& tokenList=*tokenIn;
     int ii=*in;
     while(tokenList[ii].subtype!=LINEEND){
         line+=tokenList[ii].tokenString+" ";
@@ -27,35 +27,126 @@ std::string tillLine(std::vector<Token>* tokenIn, int* in){
     return line+"\n\t";
 }
 
-std::string ifcode(std::vector<Token>* tokenIn, int* in){
-    std::vector<Token> tokenList=*tokenIn;
+std::string Translator::ifcode(std::vector<Token>* tokenIn, int* in){
+
+    std::vector<Token>& tokenList=*tokenIn;
+    std::string condition;
+    std::string codeblocked;
+    std::string elsecodeblocked;
+    bool haselse=false;
+
     int ii=*in;
+    if(tokenList[ii++].subtype==IFC){
+        if(tokenList[ii].subtype==OPENPARENTHESIS){
+            do{
+                condition+=tokenList[ii].tokenString;
+                condition+=" ";
+                ii++;
+            }while(tokenList[ii].subtype!=CLOSEPARENTHESIS);
+            condition+=tokenList[ii++].tokenString;
+        }
+
+        if(tokenList[ii].subtype==OPENCURL){
+
+            codeblocked=codeblock(tokenIn,&ii);
+        }else{
+            tillLine(tokenIn,&ii);
+        }
+    }
+    if(tokenList[++ii].subtype==ELSEC){
+        haselse=true;
+        do{
+            ii++;
+            if(tokenList[ii].subtype==OPENCURL){//inner codeBlock
+                elsecodeblocked+=codeblock(tokenIn,&(ii));
+                elsecodeblocked+=tokenList[++ii].tokenString;
+            }else if (tokenList[ii].type==TYPEMOD||tokenList[ii].type==TYPE){//Type Declaration
+                elsecodeblocked+=typedVariable(tokenIn,&ii);
+                elsecodeblocked+=tokenList[ii].tokenString;
+            }else if(tokenList[ii].subtype==IFC){//Control Statement
+                elsecodeblocked+=ifcode(tokenIn,&ii);
+
+            }else if(tokenList[ii].subtype==LOOP){//Loop Statement
+                elsecodeblocked+=loopcode(tokenIn,&ii);
+            }else{
+                elsecodeblocked+=tokenList[ii].tokenString;
+            }
+            elsecodeblocked+=" ";
+        }while(tokenList[ii].subtype!=LINEEND);
+    }
+
 
     *in=ii;
-    return type +" "+referencer+name+arrayer;
+    return "if "+condition+" "+codeblocked+";"+(haselse?+"else{"+elsecodeblocked+"}":";");
 }
 
-std::string loopcode(std::vector<Token>* tokenIn, int* in){
+std::string Translator::loopcode(std::vector<Token>* tokenIn, int* in){
     std::string preloop;
+    std::string postloop;
     std::string condition;
     std::vector<std::string> Cases;
     std::string codeblocked;
-
-    "u8 Index_Crow_Controlled=0;";
-    std::vector<Token> tokenList=*tokenIn;
+    std::vector<Token>& tokenList=*tokenIn;
     int ii=*in;
+    int index=-1;
+    if(tokenList[ii++].subtype==LOOP){
+        if(tokenList[ii++].subtype==OPENPARENTHESIS){
+
+            do{
+                if(tokenList[ii].subtype==COLON){
+                    switch(index){
+                case -1:
+                    preloop=condition+";";
+                    break;
+                default:
+                    Cases.push_back(condition);
+                    break;
+                    }
+                    index++;
+                    condition.clear();
+                }else{
+                    condition+=tokenList[ii].tokenString;
+                }
+                ii++;
+            }while(tokenList[ii].subtype!=CLOSEPARENTHESIS);
+        }
+        if(tokenList[++ii].subtype==OPENCURL){
+
+            codeblocked=codeblock(tokenIn,&ii);
+        }
+    }
+
+    if(index>0){//if index is -1 or 0, it means there are no special instructions, so it won't run, otherwise it has special instrucitions
+        preloop+=" u8 Index_Crow_Controlled=0;\n";
+        postloop+="\nIndex_Crow_Controlled++;\nswitch(Index_Crow_Controlled){";
+    }
+    for(int ii=0; ii<index;ii++){
+        //Add Instrucions to switch case
+        //case 1: instruction1;break;
+        //case 2:instruction2;break;
+        postloop+="case "+std::to_string(ii+1)+":\n";
+        postloop+=Cases[ii]+"\n";
+        postloop+="break;\n";
+    }
+    if(index>0){//Finish the Processing of switch case
+        preloop+=" u8 Index_Crow_Controlled=0;\n";
+        postloop+="default:break;}";
+    }
+
+
     *in=ii;
-    return type +" "+referencer+name+arrayer;
+
+    return preloop+"while("+condition+"){{"+codeblocked+"}"+postloop+"}";
 }
 
 
-std::string typedVariable(std::vector<Token>* tokenIn, int* in){
+std::string Translator::typedVariable(std::vector<Token>* tokenIn, int* in){
 
     std::string name;
     std::string arrayer;
     std::string type;
     std::string referencer;
-    std::vector<Token> tokenList=*tokenIn;
+    std::vector<Token>& tokenList=*tokenIn;
     std::vector<Token> stacked;
     int ii=*in;
     if(tokenList[ii].type==TYPEMOD){
@@ -84,7 +175,7 @@ std::string typedVariable(std::vector<Token>* tokenIn, int* in){
                         break;
                     case STRUCTDECLARE:
                         type+="struct ";
-                        type+=tokenList[++ii].tokenString;
+                        type+=tokenList[++ii].tokenString+" ";
                         break;
                     default:
                         std::cout<<"Something went Wrong"<<"\n";
@@ -106,9 +197,9 @@ std::string typedVariable(std::vector<Token>* tokenIn, int* in){
     return type +" "+referencer+name+arrayer;
 }
 
-std::string codeblock(std::vector<Token>* tokenIn, int* in){
+std::string Translator::codeblock(std::vector<Token>* tokenIn, int* in){
     std::string returnal;
-    std::vector<Token> tokenList=*tokenIn;
+    std::vector<Token>& tokenList=*tokenIn;
     int ii=*in;
     if(tokenList[ii].subtype==OPENCURL){
     returnal+=tokenList[ii].tokenString+"\n";
@@ -144,15 +235,17 @@ std::string codeblock(std::vector<Token>* tokenIn, int* in){
     *in=ii;
     return returnal;
 }
-std::string function(std::vector<Token> *tokenIn, int *in){
+std::string Translator::function(std::vector<Token> *tokenIn, int *in){
     // function name([Optional Parameter Declaration])[:returnType[:routine]] statement[s or codeblock]
-    std::vector<Token> tokenList=*tokenIn;
+    std::vector<Token>& tokenList=*tokenIn;
     int ii=*in;
     std::string name;
     std::string returntype="void";
     std::string parameters;
     std::string referencer;
     std::string codeblocked;
+    subtokentype routine=SUBROUTINE;
+
     name+=tokenList[ii+1].tokenString;
     int n=ii+2;
     do{
@@ -179,7 +272,7 @@ std::string function(std::vector<Token> *tokenIn, int *in){
                         break;
                     case STRUCTDECLARE:
                         returntype+="struct ";
-                        returntype+=tokenList[++ii].tokenString;
+                        returntype+=tokenList[++ii].tokenString+" ";
                         break;
                 default:
                     returntype+=tokenList[++n].tokenString;
@@ -188,25 +281,44 @@ std::string function(std::vector<Token> *tokenIn, int *in){
                 }
         }while(tokenList[n+1].subtype!=COLON&&tokenList[n+1].subtype!=OPENCURL);
         if(tokenList[++n].subtype==COLON){
-            codeblocked="/*"+tokenList[++n].tokenString+"*/";
+
+            routine=tokenList[++n].subtype;
             n++;
         }
     }
+    codeblocked+="{";
+    switch(routine){
 
-    codeblocked+=codeblock(&tokenList,&(n));
+    case MAIN:
+        codeblocked+=replaceAll(replaceAll(replaceAll(parameters,",",";"),"(",""),")","");
+        parameters="()";
+        MainFunctions.push_back(name);
+        codeblocked+=codeblock(&tokenList,&(n))+"}";
+
+    break;
+
+    case FRAME:
+        codeblocked+=codeblock(&tokenList,&(n))+"vid_vsync();}";
+    break;
+    case SUBROUTINE:
+    default:
+    codeblocked+=codeblock(&tokenList,&(n))+"}";
+    break;
+    }
+
     *in=n;
-    return returntype+" "+referencer+name+parameters+codeblocked+"\n";
+    return returntype+" "+referencer+name+parameters+"/*"+Token::string(routine)+"*/"+codeblocked+"\n";
 }
-std::string structConstruct(std::vector<Token> *tokenIn, int *in){
+std::string Translator::structConstruct(std::vector<Token> *tokenIn, int *in){
     // function name([Optional Parameter Declaration])[:returnType[:routine]] statement[s or codeblock]
-    std::vector<Token> tokenList=*tokenIn;
+    std::vector<Token>& tokenList=*tokenIn;
     int ii=*in;
     std::string name;
     std::string codeblocked;
     name+=tokenList[++ii].tokenString;
     codeblocked+=codeblock(&tokenList,&(++ii));
     *in=ii;
-    return "struct "+name+codeblocked+";\n";
+    return "struct "+name+" "+codeblocked+";\n";
 }
 void Translator::translate(std::vector<Token> tokenList){
     if(Output.bad()){
@@ -217,20 +329,26 @@ void Translator::translate(std::vector<Token> tokenList){
     int n=tokenList.size();
     for(int ii=0;ii<n;ii++){
         if(tokenList[ii].subtype==FUNCTION){
-            Output<<"/*StartOfFunction*/\n";
+            //Output<<"/*StartOfFunction*/\n";
             Output<<function(&tokenList,&ii);
-            Output<<"/*End of the Function*/\n";
+            //Output<<"/*End of the Function*/\n";
         }else if(tokenList[ii].type==TYPEMOD||tokenList[ii].type==TYPE){
-            Output<<"/*Start of the TypedVariable till Line fromToken:"+tokenList[ii].str()+"*/\n";
+            //Output<<"/*Start of the TypedVariable till Line fromToken:"+tokenList[ii].str()+"*/\n";
             Output<<typedVariable(&tokenList,&ii);
-            Output<<tillLine(&tokenList,&ii);
-            Output<<"/*End of the TypedVariable till Line*/\n";
+            Output<<tillLine(&tokenList,&ii)<<";";
+            //Output<<"/*End of the TypedVariable till Line*/\n";
         }else if(tokenList[ii].subtype==STRUCTURE){
-            Output<<"/*Start of Structure*/\n";
+            //Output<<"/*Start of Structure*/\n";
             Output<<structConstruct(&tokenList,&ii);
-            Output<<"/*End of the structure*/\n";
+            //Output<<"/*End of the structure*/\n";
         }
     }
+    Output<<"void main(){\n\t";
+    for(std::string call:MainFunctions){
+        Output<<call<<"();\n";
+    }
+    Output<<"while(1); return 0;}";
+
     Output.close();
 }
 

@@ -14,7 +14,6 @@ CrowError Syntaxer::matchSubtype(Token t,subtokentype comp){
         printerout<<std::endl;
         return CrowError();
     }else{
-        //printer();
         if( maxDepth<=workingindex){
             maxDepth=workingindex;
             maxError=CrowError((int) comp,t);
@@ -410,8 +409,9 @@ CrowError Syntaxer::statement(){
         };
         return Once(inner,2);
     },
-    std::bind(&Syntaxer::control,this),
-    std::bind(&Syntaxer::block,this)
+    std::bind(&Syntaxer::block,this),
+    std::bind(&Syntaxer::control,this)
+
     };
     return OneOf(functions,3);
     }
@@ -454,11 +454,11 @@ CrowError Syntaxer::assigner(){
         },
         [this](){
             std::function<CrowError()> inner[]={
+                std::bind(&Syntaxer::construct,this),
                 std::bind(&Syntaxer::calculated,this),
-                std::bind(&Syntaxer::arrayc,this),
-                std::bind(&Syntaxer::construct,this)
+                std::bind(&Syntaxer::arrayc,this)
             };
-            return OneOf(inner,2);
+            return OneOf(inner,3);
         }
     };
     return Once(functions,5);
@@ -741,7 +741,13 @@ CrowError Syntaxer::IFCODE(){
     [this](){
     return this->matchSubtype(this->tokenlist[this->workingindex++],IFC);
     },
+    [this](){
+    return this->matchSubtype(this->tokenlist[this->workingindex++],OPENPARENTHESIS);
+    },
     std::bind(&Syntaxer::calculated,this),
+    [this](){
+    return this->matchSubtype(this->tokenlist[this->workingindex++],CLOSEPARENTHESIS);
+    },
     std::bind(&Syntaxer::statement,this),
     [this](){
         std::function<CrowError()> inner[]={
@@ -753,7 +759,7 @@ CrowError Syntaxer::IFCODE(){
     return NoneOrOnce(inner,2);
     }
     };
-    return Once(functions,4);
+    return Once(functions,6);
     }
 CrowError Syntaxer::LOOPCODE(){
     std::function<CrowError()> functions[]={

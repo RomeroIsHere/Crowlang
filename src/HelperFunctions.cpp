@@ -1,4 +1,5 @@
 #include "HelperFunctions.h"
+#include <iostream>
 std::string replaceAll(std::string str, const std::string& from, const std::string& to) {
     size_t start_pos = 0;
     while((start_pos = str.find(from, start_pos)) != std::string::npos) {
@@ -15,4 +16,13 @@ int countChar(std::string s,char c) {
     if (s[i] == c) count++;
 
   return count;
+}
+
+
+void debugprint(){
+    std::cout<<"------------I am Here!!"<<"\n";
+}
+
+void debugprint(std::string in){
+    std::cout<<in<<"\n";
 }
