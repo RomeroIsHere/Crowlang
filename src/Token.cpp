@@ -46,8 +46,8 @@ void Token::initialize(){
     regexSubType[DIVIDE]=std::regex("/");
     regexSubType[MODULO]=std::regex("%");
     regexSubType[AND]=std::regex("&");
-    regexSubType[OR]=std::regex("|");
-    regexSubType[XOR]=std::regex("^");
+    regexSubType[OR]=std::regex("\\|");
+    regexSubType[XOR]=std::regex("\\^");
     regexSubType[LESS]=std::regex("<");
     regexSubType[MORE]=std::regex(">");
     regexSubType[SHIFTRIGHT]=std::regex(">>");

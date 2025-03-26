@@ -23,6 +23,7 @@ class Translator
         std::string structConstruct(std::vector<Token> *tokenIn, int *in);
     private:
         std::vector<std::string> MainFunctions;
+        std::vector<std::string> Definitions;
 
 };
 

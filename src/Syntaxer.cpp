@@ -584,9 +584,11 @@ CrowError Syntaxer::bits(){
                 std::bind(&Syntaxer::logical,this),
                 std::bind(&Syntaxer::unarysigned,this)
             };
+
             return NoneOrMore(inner,2);
         }
     };
+
     return Once(functions,2);
     }
 CrowError Syntaxer::unarysigned(){

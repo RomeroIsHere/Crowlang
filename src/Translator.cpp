@@ -113,6 +113,9 @@ std::string Translator::loopcode(std::vector<Token>* tokenIn, int* in){
         if(tokenList[++ii].subtype==OPENCURL){
 
             codeblocked=codeblock(tokenIn,&ii);
+            codeblocked+=tokenList[++ii].tokenString;
+        }else{
+            codeblocked=tillLine(tokenIn,&ii);
         }
     }
 
@@ -125,7 +128,7 @@ std::string Translator::loopcode(std::vector<Token>* tokenIn, int* in){
         //case 1: instruction1;break;
         //case 2:instruction2;break;
         postloop+="case "+std::to_string(ii+1)+":\n";
-        postloop+=Cases[ii]+"\n";
+        postloop+=Cases[ii]+";\n";
         postloop+="break;\n";
     }
     if(index>0){//Finish the Processing of switch case
@@ -305,9 +308,9 @@ std::string Translator::function(std::vector<Token> *tokenIn, int *in){
     codeblocked+=codeblock(&tokenList,&(n))+"}";
     break;
     }
-
     *in=n;
-    return returntype+" "+referencer+name+parameters+"/*"+Token::string(routine)+"*/"+codeblocked+"\n";
+    Definitions.push_back(returntype+" "+referencer+name+parameters+"/*"+Token::string(routine)+"*/"+codeblocked+"\n");
+    return returntype+" "+referencer+name+parameters+";";;
 }
 std::string Translator::structConstruct(std::vector<Token> *tokenIn, int *in){
     // function name([Optional Parameter Declaration])[:returnType[:routine]] statement[s or codeblock]
@@ -342,12 +345,16 @@ void Translator::translate(std::vector<Token> tokenList){
             Output<<structConstruct(&tokenList,&ii);
             //Output<<"/*End of the structure*/\n";
         }
+        Output<<"\n";
     }
     Output<<"void main(){\n\t";
     for(std::string call:MainFunctions){
         Output<<call<<"();\n";
     }
     Output<<"while(1); return 0;}";
+    for(std::string call:Definitions){
+        Output<<call<<"\n";
+    }
 
     Output.close();
 }
