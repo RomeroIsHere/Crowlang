@@ -30,7 +30,10 @@ int main(int argc, char ** argv)
     Token::initialize();
     std::string mainFileName;
     std::string outputFileName;
-    if(argc>=3){
+    if(argc==2){
+        mainFileName= argv[1];
+        outputFileName= mainFileName+".c";
+    }else if(argc>=3){
         mainFileName= argv[1];
         outputFileName= argv[2];
     }else{
