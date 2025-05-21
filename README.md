@@ -28,6 +28,8 @@ Para esta ultima Opcion Simplemente Genera una Copia del Repositorio, Abre Codeb
 
 Para Generar Archivos de Lenguaje C desde Crow no es necesario crear un ambiente de Desarollo, sin Embargo Para Facilitar esta Parte, tenemos una Extension de VSCode, la cual tiene resaltado de sintaxis para los Archivos .crow y .crow.end
 
+- Crow [SOURCEFILE] [OUTPUTFILE]
+
 Para el Desarollo de una ROM para GBA son necesarios mas elementos, y un entono de desarollo dedicado, Puedes ver como crear este entorno en el Siguiente Repositorio https://github.com/gbadev-org/libtonc-template.git y puedes ver ejemplo de Codigo C a GBA dentro de Este otro Repositorio https://github.com/gbadev-org/libtonc-examples
 
 Puedes Utilizar las Reglas MAKE existentes en estos Repositorios, o puedes utilizar los comandos de compilacion proporcionados por Devkitpro en su toolkit devkitarm (Es Necesario Agregar los Binarios a PATH si es que aun no estan Agregados)
