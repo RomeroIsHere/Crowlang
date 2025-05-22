@@ -8,9 +8,10 @@
 
 * * *
 
-Se Necesita el Binario de Ejecucion GCC para ser utilizado como Preprocesador, si ya lo tienes Instalado, asegurate de que el Programa este en la Variable de entorno PATH.
+Se Necesita el Binario de Ejecucion GCC para ser utilizado como Preprocesador, si ya lo tienes Instalado, asegurate de que el Programa este en la Variable de entorno PATH. Se Recomienda usar [MinGW](https://sourceforge.net/projects/mingw/) para tener acceso a mas Herramientas en el Futuro, como g++, otra herramienta de Preprocesamiento y compilación.
 
-El Lenguaje Crow es Directamente traducido a Lenguaje C, Sin embargo esta diseñado para programar GBA, por lo tanto Es Necesario Tener el Ambiente de Desarollo de GBA DevkitARM, el cual Contiene La Libreria TONC, la cual se usa para Programar en GBA
+
+El Lenguaje Crow es Directamente traducido a Lenguaje C, Sin embargo esta diseñado para programar GBA, por lo tanto Es Necesario Tener el Ambiente de Desarollo de GBA [DevkitARM](https://github.com/devkitPro/installer/releases), el cual Contiene La Libreria TONC, la cual se usa para Programar en GBA.
 
 * * *
 
@@ -26,11 +27,19 @@ Para esta ultima Opcion Simplemente Genera una Copia del Repositorio, Abre Codeb
 
 ## Manual de Usuario
 
-Para Generar Archivos de Lenguaje C desde Crow no es necesario crear un ambiente de Desarollo, sin Embargo Para Facilitar esta Parte, tenemos una Extension de VSCode, la cual tiene resaltado de sintaxis para los Archivos .crow y .crow.end
+* * *
+
+Crowlang contiene un Subset de Instrucciones de C, Siendo estas las Operaciones Aritmeticas, Operaciones de BIT, Acceso de Array, Declaraciones y Definiciones, y Llamadas de Funciones, Para un Vistazo Mas A Fondo, Por Favor Consulta la Sección de Traduccion en la Documentacion de Compilador.
+
+* * *
+
+el compilador de Crowlang tiene unicamente 2 Parametros que Necesita, el Nombre del archivo MAIN a Compilar y el Nombre del Archivo de Salida. Si no se proporcionan ambos Argumentos, entonces intentara Obtener los datos de manera manual mediante un Menu Simple, donde se pueden ingresar ambos datos (si solo proporcionas 1 Dato este se utiliza como el archivo a compilar, y el archivo de salida sera el primer dato+ “c”)
 
 - Crow [SOURCEFILE] [OUTPUTFILE]
 
-Para el Desarollo de una ROM para GBA son necesarios mas elementos, y un entono de desarollo dedicado, Puedes ver como crear este entorno en el Siguiente Repositorio https://github.com/gbadev-org/libtonc-template.git y puedes ver ejemplo de Codigo C a GBA dentro de Este otro Repositorio https://github.com/gbadev-org/libtonc-examples
+Para Generar Archivos de Lenguaje C desde Crow no es necesario crear un ambiente de Desarollo, sin embargo es preferible Desarollar Crow dentro de la misma Carpeta de Source que tu Ambiente de desarollo para Traducir de C a rom de GBA.
+
+Para el Desarollo de una ROM para GBA son necesarios mas elementos, y un entono de desarollo dedicado, Puedes ver como crear este entorno en [La Plantilla de Libtonc](https://github.com/gbadev-org/libtonc-template.git) y puedes ver ejemplo de Codigo C a GBA dentro del repositorio de [Ejemplos de Libtonc](https://github.com/gbadev-org/libtonc-examples)
 
 Puedes Utilizar las Reglas MAKE existentes en estos Repositorios, o puedes utilizar los comandos de compilacion proporcionados por Devkitpro en su toolkit devkitarm (Es Necesario Agregar los Binarios a PATH si es que aun no estan Agregados)
 
@@ -52,13 +61,4 @@ arm-none-eabi-objcopy -O binary first.elf first.gba
 
 gbafix first.gba
 
-Puedes Ver y Entender Mejor como funciona el Ambiente de desarollo para Devkitarm dentro de el Siguiente Sitio https://gbadev.net/tonc/setup.html
-
-* * *
-
-Crowlang contiene un Subset de Instrucciones de C, Siendo estas las Operaciones Aritmeticas, Operaciones de BIT, Acceso de Array, Declaraciones y Definiciones, y Llamadas de Funciones, Para un Vistazo Mas A Fondo, Por Favor Consulta la Sección de Traduccion en la Documentacion de Compilador.
-
-* * *
-
-el compilador de Crowlang tiene unicamente 2 Parametros que Necesita, el Nombre del archivo MAIN a Compilar y el Nombre del Archivo de Salida. Si no se proporcionan ambos Argumentos, entonces intentara Obtener los datos de manera manual mediante un Menu Simple, donde se pueden ingresar ambos datos (si solo proporcionas 1 Dato este se utiliza como el archivo a compilar, y el archivo de salida sera el primer dato+ “c”)
-
+Puedes Ver y Entender Mejor como funciona el Ambiente de desarollo para Devkitarm dentro de [La guia de Programacion para GBA](https://gbadev.net/tonc/)
